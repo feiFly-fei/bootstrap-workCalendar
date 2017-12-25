@@ -1,0 +1,10 @@
+{
+  "name": "bootstrap-workCalendar",
+  "version": "0.0.1",
+  "author": {
+    "name": "Li Fei"
+  },
+  "keywords": [
+    "bootstrap", "datetime", "calendar"
+  ]
+}

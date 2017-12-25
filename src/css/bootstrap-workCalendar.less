@@ -1,0 +1,102 @@
+.calendar-box{
+  width: 620px;
+  padding: 10px;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  &>.row{
+    &>div{
+      margin: 10px auto;
+    }
+
+    .datePicker-box{
+      width: 200px;
+      margin:auto;
+    }
+
+    .calendar-table{
+      thead{
+        th{
+          border: none;
+          padding: 0 0 10px;
+          text-align: center;
+        }
+      }
+
+      tbody{
+        tr{
+          td{
+            text-align: center;
+            width: 40px;
+            height: 57px;
+            border: 0;
+            padding: 4px;
+
+            p{
+              margin: 0;
+              padding: 0;
+            }
+
+            p.lunar{
+              font-size: 10px;
+              color: #888;
+            }
+
+            &.active{
+              background-color: #d0fad0;
+
+              &.emphasize{
+                background-color: #97ffbf;
+              }
+            }
+
+            &.disabled{
+              background-color: #f1f1f1;
+
+              .reason{
+                width: 100%;
+                height: 20px;
+                overflow: hidden;
+
+                .icon{
+                  display: inline-block;
+                  width: 20px;
+                  height: 20px;
+                  background-image: url('../images/whether-blue.png');
+                  -webkit-background-size: 120px 75px;
+                  background-size: 120px 75px;
+
+                  &.cloudy{
+                    background-position: 0 0;
+                  }
+
+                  &.rain{
+                    background-position: 2px 47px;
+                  }
+
+                  &.snow{
+                    background-position: -74px 48px;
+                  }
+
+                  &.rainSnow{
+                    background-position: -100px 47px;
+                  }
+                }
+              }
+            }
+            
+            label{
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.workCalendar-box{
+  position: relative;
+  display: inline-block;
+}
