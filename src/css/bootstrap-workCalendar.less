@@ -1,18 +1,14 @@
 .calendar-box{
-  width: 620px;
+  width: 100%;
+  min-width: 580px;
   padding: 10px;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 10px;
+  top: 10px;
 
   &>.row{
     &>div{
       margin: 10px auto;
-    }
-
-    .datePicker-box{
-      width: 200px;
-      margin:auto;
     }
 
     .calendar-table{
@@ -28,10 +24,8 @@
         tr{
           td{
             text-align: center;
-            width: 40px;
             height: 57px;
             border: 0;
-            padding: 4px;
 
             p{
               margin: 0;
@@ -98,5 +92,6 @@
 
 .workCalendar-box{
   position: relative;
-  display: inline-block;
+  width: 640px;
+  height: 500px;
 }

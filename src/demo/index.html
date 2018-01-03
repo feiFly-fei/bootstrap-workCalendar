@@ -18,199 +18,179 @@
     <script src="./demo.js"></script>
 </head>
 <body>
-<div class="workCalendar-box">
-    <button class="btn btn-primary" id="showCalendar">显示工作日程</button>
-</div>
-
-
-<div class="calendar-box" style="display: none;">
-    <div class="row">
-        <div class="col-md-6 col-sm-6">
-            <div class="input-group datePicker-box">
-                <input type="text" class="form-control" value="2017-01-01">
-                <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
+<div class="workCalendar-box" key="testKey">
+    <div class="calendar-box" style="">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center">
+                <span class="glyphicon glyphicon-chevron-left pull-left"></span>
+                <label class="beginDate">2017-01</label>
             </div>
-        </div>
-        <div class="col-md-5 col-sm-5">
-            <div class="input-group datePicker-box">
-                <input type="text" class="form-control" value="2017-02-28">
-                <span class="input-group-addon">
-                 <span class="glyphicon glyphicon-calendar"></span>
-            </span>
+            <div class="col-md-6 col-sm-6 text-center">
+                <label class="endDate">2017-02</label>
+                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
             </div>
-        </div>
-        <div class="col-sm-1 col-md-1">
-            <div class="btn-box">
-                <button class="btn btn-sm btn-success">确定</button>
+            <div class="col-md-6 col-sm-6">
+                <table class="table calendar-table">
+                    <thead>
+                    <tr>
+                        <th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th><th>周日</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="disabled">
+                            <p class="day">01</p>
+                            <p class="lunar">初一</p>
+                            <p class="reason">
+                                <span class="icon rainSnow"></span>
+                            </p>
+                        </td>
+                        <td class="active">
+                            <p class="day">02</p>
+                            <p class="lunar">初一</p>
+                        </td>
+                        <td class="disabled">
+                            <p class="day">03</p>
+                            <p class="lunar">初一</p>
+                            <p class="reason">
+                                <span class="icon rain"></span>
+                            </p>
+                        </td>
+                        <td class="disabled">
+                            <p class="day">04</p>
+                            <p class="lunar">初一</p>
+                            <p class="reason">
+                                <span class="icon cloudy"></span>
+                            </p>
+                        </td>
+                        <td class="active">05
+                            <p class="lunar">初一</p>
+                        </td>
+                        <td class="active">06
+                            <p class="lunar">初一</p>
+                        </td>
+                        <td class="active">07
+                            <p class="lunar">初一</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="active">
+                            <p class="day">01</p>
+                            <p class="lunar">初一</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">02</p>
+                            <p class="lunar">初一</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">03</p>
+                            <p class="lunar">初一</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">04</p>
+                            <p class="lunar">初一</p>
+                        </td>
+                        <td class="active">05</td>
+                        <td class="active">06</td>
+                        <td class="active">07</td>
+                    </tr>
+                    <tr>
+                        <td class="active">
+                            <p class="day">01</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">02</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">03</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">04</p>
+                        </td>
+                        <td class="active">05</td>
+                        <td class="active">06</td>
+                        <td class="active">07</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <div class="col-md-6 col-sm-6 text-center">
-            <span class="glyphicon glyphicon-chevron-left pull-left"></span>
-            <label class="beginDate">2017-01</label>
-        </div>
-        <div class="col-md-6 col-sm-6 text-center">
-            <label class="endDate">2017-02</label>
-            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <table class="table calendar-table">
-                <thead>
-                <tr>
-                    <th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th><th>周日</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="disabled">
-                        <p class="day">01</p>
-                        <p class="lunar">初一</p>
-                        <p class="reason">
-                            <span class="icon rainSnow"></span>
-                        </p>
-                    </td>
-                    <td class="active">
-                        <p class="day">02</p>
-                        <p class="lunar">初一</p>
-                    </td>
-                    <td class="disabled">
-                        <p class="day">03</p>
-                        <p class="lunar">初一</p>
-                        <p class="reason">
-                            <span class="icon rain"></span>
-                        </p>
-                    </td>
-                    <td class="disabled">
-                        <p class="day">04</p>
-                        <p class="lunar">初一</p>
-                        <p class="reason">
-                            <span class="icon cloudy"></span>
-                        </p>
-                    </td>
-                    <td class="active">05
-                        <p class="lunar">初一</p>
-                    </td>
-                    <td class="active">06
-                        <p class="lunar">初一</p>
-                    </td>
-                    <td class="active">07
-                        <p class="lunar">初一</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="active">
-                        <p class="day">01</p>
-                        <p class="lunar">初一</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">02</p>
-                        <p class="lunar">初一</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">03</p>
-                        <p class="lunar">初一</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">04</p>
-                        <p class="lunar">初一</p>
-                    </td>
-                    <td class="active">05</td>
-                    <td class="active">06</td>
-                    <td class="active">07</td>
-                </tr>
-                <tr>
-                    <td class="active">
-                        <p class="day">01</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">02</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">03</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">04</p>
-                    </td>
-                    <td class="active">05</td>
-                    <td class="active">06</td>
-                    <td class="active">07</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <table class="table calendar-table">
-                <thead>
-                <tr>
-                    <th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th><th>周日</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="disabled">
-                        <p class="day">01</p>
-                        <p class="reason">
-                            <span class="icon rainSnow"></span>
-                        </p>
-                    </td>
-                    <td class="active">
-                        <p class="day">02</p>
-                    </td>
-                    <td class="disabled">
-                        <p class="day">03</p>
-                        <p class="reason">
-                            <span class="icon rain"></span>
-                        </p>
-                    </td>
-                    <td class="disabled">
-                        <p class="day">04</p>
-                        <p class="reason">
-                            <span class="icon cloudy"></span>
-                        </p>
-                    </td>
-                    <td class="active">05</td>
-                    <td class="active">06</td>
-                    <td class="active">07</td>
-                </tr>
-                <tr>
-                    <td class="active">
-                        <p class="day">01</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">02</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">03</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">04</p>
-                    </td>
-                    <td class="active">05</td>
-                    <td class="active">06</td>
-                    <td class="active">07</td>
-                </tr>
-                <tr>
-                    <td class="active">
-                        <p class="day">01</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">02</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">03</p>
-                    </td>
-                    <td class="active">
-                        <p class="day">04</p>
-                    </td>
-                    <td class="active">05</td>
-                    <td class="active">06</td>
-                    <td class="active">07</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="col-md-6 col-sm-6">
+                <table class="table calendar-table">
+                    <thead>
+                    <tr>
+                        <th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th><th>周日</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="disabled">
+                            <p class="day">01</p>
+                            <p class="reason">
+                                <span class="icon rainSnow"></span>
+                            </p>
+                        </td>
+                        <td class="active">
+                            <p class="day">02</p>
+                        </td>
+                        <td class="disabled">
+                            <p class="day">03</p>
+                            <p class="reason">
+                                <span class="icon rain"></span>
+                            </p>
+                        </td>
+                        <td class="disabled">
+                            <p class="day">04</p>
+                            <p class="reason">
+                                <span class="icon cloudy"></span>
+                            </p>
+                        </td>
+                        <td class="active">05</td>
+                        <td class="active">06</td>
+                        <td class="active">07</td>
+                    </tr>
+                    <tr>
+                        <td class="active">
+                            <p class="day">01</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">02</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">03</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">04</p>
+                        </td>
+                        <td class="active">05</td>
+                        <td class="active">06</td>
+                        <td class="active">07</td>
+                    </tr>
+                    <tr>
+                        <td class="active">
+                            <p class="day">01</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">02</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">03</p>
+                        </td>
+                        <td class="active">
+                            <p class="day">04</p>
+                        </td>
+                        <td class="active">05</td>
+                        <td class="active">06</td>
+                        <td class="active">07</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
+<!--<div class="workCalendar-box" key="testKey1"></div>-->
+
+
 </body>
 </html>

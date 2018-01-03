@@ -4,26 +4,21 @@
 
 
 $.fn.workCalendar = function (option) {
-    var that = this;
-    this.each(function () {
-        var $this = $(this),
-            data = $this.data('workCalendar'),
-            options = typeof option === 'object' && option;
+    this.each(function (i) {
+        var options = typeof option === 'object' && option;
 
+        //没有起止时间 则默认近两个月
         if(!options.endDate){
             var nowDate = new Date();
             options.endDate = DateOperate.formatDate(nowDate, 'yyyy-MM');
 
             if(!options.startDate){
-                var startDate = nowDate.getFullYear() + "-" + parseInt(nowDate.getMonth()-1);
+                var startDate = nowDate.getFullYear() + "-" + parseInt(nowDate.getMonth());
                 options.startDate = startDate;
             }
         }
 
-        $this.unbind('click').bind('click', function () {
-
-        });
-
+        $.fn.workCalendar.initUI(this, options);
     });
 };
 
@@ -182,17 +177,8 @@ var DateOperate = {
 };
 
 DateOperate.boxTemplate = function (beginDate, endDate) {
-   var _dom =  '<div class="calendar-box">' +
+    return '<div class="calendar-box">' +
         '<div class="row">' +
-            '<div class="col-md-6 col-sm-6">' +
-                '<input type="text" class="form-control"><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>' +
-            '</div>' +
-            '<div class="col-md-5 col-sm-5">' +
-                '<input type="text" class="form-control"><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>' +
-            '</div>' +
-            '<div class="col-sm-1 col-md-1">' +
-                '<div class="btn-box"><button class="btn btn-sm btn-success">确定</button></div>' +
-            '</div>' +
             '<div class="col-md-6 col-sm-6 text-center"><span class="glyphicon glyphicon-chevron-left pull-left"></span> <label class="beginDate"></label></div>' +
             '<div class="col-md-6 col-sm-6 text-center"><span class="glyphicon glyphicon-chevron-left pull-right"></span> <label class="endDate"></label></div>' +
             '<div class="col-md-6 col-sm-6">' +
@@ -209,18 +195,24 @@ DateOperate.boxTemplate = function (beginDate, endDate) {
             '</div>' +
         '</div>'
     + '</div>';
-
-   return _dom;
 };
 
-$(document).on(
-    'focus.workCalendar click.workCalendar',
-    function (e) {
-        var $this = $(this);
-        if($this.data('workCalendar')) return ;
+$.fn.workCalendar.initUI = function ($source, option) {
+    console.log($source)
+    console.log(option)
+};
 
-        e.preventDefault();
 
-        $this.workCalendar('show');
-    }
-);
+
+
+
+
+
+
+
+
+
+
+
+
+

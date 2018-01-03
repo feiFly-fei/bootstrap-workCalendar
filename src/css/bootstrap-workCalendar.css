@@ -1,16 +1,13 @@
 .calendar-box {
-  width: 620px;
+  width: 100%;
+  min-width: 580px;
   padding: 10px;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 10px;
+  top: 10px;
 }
 .calendar-box > .row > div {
   margin: 10px auto;
-}
-.calendar-box > .row .datePicker-box {
-  width: 200px;
-  margin: auto;
 }
 .calendar-box > .row .calendar-table thead th {
   border: none;
@@ -19,10 +16,8 @@
 }
 .calendar-box > .row .calendar-table tbody tr td {
   text-align: center;
-  width: 40px;
   height: 57px;
   border: 0;
-  padding: 4px;
 }
 .calendar-box > .row .calendar-table tbody tr td p {
   margin: 0;
@@ -71,5 +66,6 @@
 }
 .workCalendar-box {
   position: relative;
-  display: inline-block;
+  width: 640px;
+  height: 500px;
 }
