@@ -469,8 +469,8 @@ function drawArrangedStyle($source, disabledDay, flag) {
                     disMonth = new Date(disableDay).getMonth()+1;
                 if(num == day && parseInt(month) == disMonth){
                     $this.addClass('disabled');
-                    if(tempDisableDay.reasonClass){
-                        $this.append('<p class="reason"><span class="icon ' + tempDisableDay.reasonClass + '"></span></p>');
+                    if(tempDisableDay[j].reasonClass){
+                        $this.append('<p class="reason"><span class="icon ' + tempDisableDay[j].reasonClass + '"></span></p>');
                     }
                     tempDisableDay.splice(j, 1);
                 }

@@ -29,11 +29,3 @@ $(function () {
 
     $('#workCalendar-box1').workCalendar(option);
 });
-
-
-function getData() {
-    var data = {
-        beginDate: '2017-10',
-        endDate: '2017-12'
-    }
-}
