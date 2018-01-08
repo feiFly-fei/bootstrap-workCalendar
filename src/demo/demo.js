@@ -5,36 +5,29 @@
 $(function () {
     var option = {
         beginDate: '2017-10-12',
-        endDate: '2017-12-20',
+        endDate: '2017-11-25',
         disabledDay: [
             {
-                beginDay: '2017-10-01',
-                endDay: '2017-10-07',
-                reason: '国庆'
+                day: '2017-10-01'
             },
             {
-                beginDay: '2017-12-12',
+                day: '2017-10-02'
+            },
+            {
+                day: '2017-10-03'
+            },
+            {
+                day: '2017-11-12',
                 reasonClass: 'rain'
             },
             {
-                beginDay: '2017-12-20',
+                day: '2017-11-20',
                 reasonClass: 'snow'
             }
         ]
     };
 
-    $('.workCalendar-box').workCalendar(option);
-    var option1 = {
-        beginDate: '2017-09-12',
-        endDate: '2017-09-20',
-        disabledDay: [
-            {
-                beginDay: '2017-10-01',
-                endDay: '2017-10-07',
-                reason: '国庆'
-            }
-        ]
-    };
+    $('#workCalendar-box1').workCalendar(option);
 });
 
 

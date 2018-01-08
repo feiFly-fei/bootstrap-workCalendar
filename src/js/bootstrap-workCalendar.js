@@ -5,129 +5,25 @@
 
 $.fn.workCalendar = function (option) {
     this.each(function (i) {
-        var options = typeof option === 'object' && option;
+        let options = typeof option === 'object' && option;
 
         //没有起止时间 则默认近两个月
         if(!options.endDate){
-            var nowDate = new Date();
+            let nowDate = new Date();
             options.endDate = DateOperate.formatDate(nowDate, 'yyyy-MM');
 
             if(!options.startDate){
-                var startDate = nowDate.getFullYear() + "-" + parseInt(nowDate.getMonth());
+                let startDate = nowDate.getFullYear() + "-" + parseInt(nowDate.getMonth());
                 options.startDate = startDate;
             }
         }
 
-        $.fn.workCalendar.initUI(this, options);
+        $.fn.workCalendar.initUI($(this), options);
     });
-};
-
-var holiday = {
-    // 农历节日
-    Lfestival: {
-        "正月:初一": "春节",
-            "正月:十五": "元宵节",
-            "五月:初五": "端午节",
-            "七月:初七": "乞巧节",
-            "八月:十五": "中秋节",
-            "九月:初九": "重阳节",
-            "腊月:初八": "腊八节",
-            "腊月:廿九": "除夕"
-    },
-    // 传统节日
-    festival: {
-        "1月1": "元旦",
-            "2月2": "世界湿地日",
-            "2月14": "情人节",
-            "3月3": "全国爱耳日",
-            "3月5": "青年志愿者服务日",
-            "3月8": "国际妇女节",
-            "3月9": "保护母亲河日",
-            "3月12": "中国植树节",
-            "3月14": "白色情人节",
-            "3月15": "世界消费者权益日",
-            "3月21": "世界森林日",
-            "3月22": "世界水日",
-            "3月23": "世界气象日",
-            "3月24": "世界防治结核病日",
-            "4月1": "愚人节",
-            "4月7": "世界卫生日",
-            "4月22": "世界地球日",
-            "4月26": "世界知识产权日",
-            "5月1": "国际劳动节",
-            "5月3": "世界哮喘日",
-            "5月4": "中国青年节",
-            "5月8": "世界红十字日",
-            "5月12": "国际护士节",
-            "5月15": "国际家庭日",
-            "5月17": "世界电信日",
-            "5月20": "全国学生营养日",
-            "5月23": "国际牛奶日",
-            "5月31": " 世界无烟日",
-            "6月1": " 国际儿童节",
-            "6月5": "世界环境日",
-            "6月6": "全国爱眼日",
-            "6月17": "世界防治荒漠化和干旱日",
-            "6月23": "国际奥林匹克日",
-            "6月25": "全国土地日",
-            "6月26": "国际禁毒日",
-            "7月1": "中国共产党诞生日",
-            "7月7": "中国人民抗日战争纪念日",
-            "7月11": "世界人口日",
-            "8月1": "中国人民解放军建军节",
-            "8月12": "国际青年节",
-            "9月8": "国际扫盲日",
-            "9月10": "中国教师节",
-            "9月16": "中国脑健康日",
-            "9月20": "全国爱牙日",
-            "9月21": "世界停火日",
-            "9月27": "世界旅游日",
-            "10月1": "中华人民共和国国庆节",
-            "10月4": "世界动物日",
-            "10月5": "世界教师日",
-            "10月8": "全国高血压日",
-            "10月9": "世界邮政日",
-            "10月10": "世界精神卫生日",
-            "10月14": "世界标准日",
-            "10月15": "国际盲人节",
-            "10月16": "世界粮食日",
-            "10月17": "国际消除贫困日",
-            "10月24": "联合国日",
-            "10月28": "中国男性健康日",
-            "10月29": "国际生物多样性日",
-            "10月31": "万圣节",
-            "11月8": "中国记者节",
-            "11月9": "消防宣传日",
-            "11月14": "世界糖尿病日",
-            "11月17": "国际大学生节",
-            "11月25": "国际消除对妇女的暴力日",
-            "12月1": "世界爱滋病日",
-            "12月3": "世界残疾人日",
-            "12月4": "全国法制宣传日",
-            "12月9": "世界足球日",
-            "12月25": "圣诞节",
-            "12月29": "国际生物多样性日"
-    },
-    rest: {
-        '元旦': '1=>01:01',
-            '除夕': '2=>腊月:廿九',
-            '春节': '2=>正月:初一',
-            '清明节': '1=>04:04',
-            '劳动节': '1=>05:01',
-            '端午节': '2=>五月:初五',
-            '中秋节': '2=>八月:十五',
-            '国庆节': '1=>10:01'
-    }
 };
 
 
 var DateOperate = {
-    isLeapYear: function (year) {
-        return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
-    },
-    getDaysInMonth: function (year, month) {
-        return [31, (DPGlobal.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]
-    },
     formatDate: function (date, fmt) {
         var o = {
             "M+": date.getMonth() + 1, //月份
@@ -139,72 +35,449 @@ var DateOperate = {
             "S": date.getMilliseconds() //毫秒
         };
         if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (var k in o)
+        for (let k in o)
             if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
     },
-    isHoliday: function (year, month, day) {
-        for (var attr in this.holiday.festival) {
-            var msg = attr.split('月');
-            var m = parseInt(msg[0]);
-            var d = parseInt(msg[1]);
-            if (month == m && day == d) {
-                return this.holiday.festival[attr];
+    dateTemplate: function (flag) {
+        let gNum, dom = '';
+        for(i=0;i<6;i++) {
+            dom += '<tr align="center">';
+            for(j=0;j<7;j++) {
+                gNum = i*7+j;
+                dom += '<td id="GD' + gNum + flag +'"><p id="SD' + gNum + flag + '" class="day"></p><p id="LD' + gNum + flag + '" class="lunar"></p></td>'
             }
+            dom += '</tr>';
         }
-        return false;
+        return dom;
     },
-    isLunarHoliday: function (year, month, day) {
-        for (var attr in this.holiday.Lfestival) {
-            var msg = attr.split(':');
-            if (msg[0] == month && msg[1] == day) {
-                return this.holiday.Lfestival[attr];
-            }
-        }
-        return false;
-    },
-    dateTemplate: function (date) {
-        var jsDate = new Date(date);
-        var beginWeekDay = new Date(jsDate).getDay(),
-            monthDay = DateOperate.getDaysInMonth(jsDate.getFullYear(), jsDate.getMonth());
+};
 
-        //
-        var template = "", beginTd = beginWeekDay, beginDay = 1;
-        for(var i = 0; i < 6; i++){
-            var _tr = '<tr></tr>';
+DateOperate.boxTemplate = function () {
+    return '<div class="calendar-box">' +
+            '<div class="row">' +
+                '<div class="col-md-6 col-sm-6 text-center"> <label class="beginDate">' + DateOperate.formatDate(new Date(beginDate), 'yyyy-MM') + '</label></div>' +
+                '<div class="col-md-6 col-sm-6 text-center"> <label class="endDate">' + DateOperate.formatDate(new Date(endDate), 'yyyy-MM') + '</label></div>' +
+                '<div class="col-md-6 col-sm-6">' +
+                    '<table class="table calendar-table table-condensed">' +
+                        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
+                        '<tbody>' + DateOperate.dateTemplate('b') + '</tbody>' +
+                    '</table>'+
+                '</div>' +
+                '<div class="col-md-6 col-sm-6">' +
+                    '<table class="table calendar-table table-condensed">' +
+                        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
+                        '<tbody>' + DateOperate.dateTemplate('e') + '</tbody>' +
+                    '</table>'+
+                '</div>' +
+            '</div>'
+        + '</div>';
+};
+
+DateOperate.singleMonthTemplate = function () {
+    return '<div class="calendar-box">' +
+            '<div class="row">' +
+                '<div class="col-md-12 col-sm-12 text-center"> <label class="beginDate">' + DateOperate.formatDate(new Date(beginDate), 'yyyy-MM') + '</label></div>' +
+                '<div class="col-md-12 col-sm-12">' +
+                    '<table class="table calendar-table table-condensed">' +
+                        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
+                        '<tbody>' + DateOperate.dateTemplate('b') + '</tbody>' +
+                    '</table>'+
+                '</div>' +
+            '</div>'
+        + '</div>';
+};
+
+let beginDate = "", endDate = "";
+$.fn.workCalendar.initUI = function ($source, option) {
+     beginDate = option.beginDate;
+     endDate = option.endDate;
+     let flag = "";
+
+    let bY = new Date(beginDate).getFullYear(),
+        bM = new Date(beginDate).getMonth(),
+        eY = new Date(endDate).getFullYear(),
+        eM = new Date(endDate).getMonth();
+    let dom = '';
+    if(bM == eM){
+        dom = DateOperate.singleMonthTemplate();
+        flag = "one";
+    }else {
+        dom = DateOperate.boxTemplate();
+        flag = "more";
+    }
+    $source.append(dom);
+
+    drawCld(bY, bM, 'b');
+    if(bM != eM){
+        drawCld(eY, eM, 'e');
+    }
+
+    drawArrangedStyle($source, option.disabledDay, flag);
+};
+
+let lunarInfo = new Array(
+    0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
+    0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
+    0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
+    0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,
+    0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,
+    0x06ca0,0x0b550,0x15355,0x04da0,0x0a5d0,0x14573,0x052d0,0x0a9a8,0x0e950,0x06aa0,
+    0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,
+    0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b5a0,0x195a6,
+    0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,
+    0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x055c0,0x0ab60,0x096d5,0x092e0,
+    0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,
+    0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,
+    0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,
+    0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,
+    0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0);
+
+let solarMonth=new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+let solarTerm = new Array("小寒","大寒","立春","雨水","惊蛰","春分","清明","谷雨","立夏","小满","芒种","夏至","小暑","大暑","立秋","处暑","白露","秋分","寒露","霜降","立冬","小雪","大雪","冬至");
+let sTermInfo = new Array(0,21208,42467,63836,85337,107014,128867,150921,173149,195551,218072,240693,263343,285989,308563,331033,353350,375494,397447,419210,440795,462224,483532,504758);
+let nStr1 = new Array('日','一','二','三','四','五','六','七','八','九','十');
+let nStr2 = new Array('初','十','廿','卅');
+//公历节日
+let sFtv = new Array(
+    "0101 元旦",
+    "0214 情人节",
+    "0308 妇女节",
+    "0312 植树节",
+    "0315 消费者权益日",
+    "0401 愚人节",
+    "0501 劳动节",
+    "0504 青年节",
+    "0512 护士节",
+    "0601 儿童节",
+    "0701 建党节",
+    "0801 建军节",
+    "0910 教师节",
+    "0928 孔子诞辰",
+    "1001 国庆节",
+    "1006 老人节",
+    "1024 联合国日",
+    "1224 平安夜",
+    "1225 圣诞节")
+//农历节日
+let lFtv = new Array(
+    "0101 春节",
+    "0115 元宵节",
+    "0505 端午节",
+    "0707 七夕情人节",
+    "0715 中元节",
+    "0815 中秋节",
+    "0909 重阳节",
+    "1208 腊八节",
+    "1224 小年")
+//返回农历y年的总天数
+function lYearDays(y) {
+    let i, sum = 348;
+    for(i=0x8000; i>0x8; i>>=1)sum+=(lunarInfo[y-1900]&i)?1:0;
+    return(sum+leapDays(y));
+}
+//返回农历y年闰月的天数
+function leapDays(y) {
+    if(leapMonth(y))  return((lunarInfo[y-1900] & 0x10000)? 30: 29);
+    else return(0);
+}
+//判断y年的农历中那个月是闰月,不是闰月返回0
+function leapMonth(y){
+    return(lunarInfo[y-1900]&0xf);
+}
+//返回农历y年m月的总天数
+function monthDays(y,m){
+    return((lunarInfo[y-1900]&(0x10000>>m))?30:29);
+}
+//算出当前月第一天的农历日期和当前农历日期下一个月农历的第一天日期
+function Dianaday(objDate) {
+    let i, leap=0, temp=0;
+    let baseDate = new Date(1900,0,31);
+    let offset   = (objDate - baseDate)/86400000;
+    this.dayCyl = offset+40;
+    this.monCyl = 14;
+    for(i=1900; i<2050 && offset>0; i++) {
+        temp = lYearDays(i)
+        offset -= temp;
+        this.monCyl += 12;
+    }
+    if(offset<0) {
+        offset += temp;
+        i--;
+        this.monCyl -= 12;
+    }
+    this.year = i;
+    this.yearCyl=i-1864;
+    leap = leapMonth(i); //闰哪个月
+    this.isLeap = false;
+    for(i=1; i<13 && offset>0; i++) {
+        if(leap>0 && i==(leap+1) && this.isLeap==false){	//闰月
+            --i; this.isLeap = true; temp = leapDays(this.year);}
+        else{
+            temp = monthDays(this.year, i);}
+        if(this.isLeap==true && i==(leap+1)) this.isLeap = false;	//解除闰月
+        offset -= temp;
+        if(this.isLeap == false) this.monCyl++;
+    }
+    if(offset==0 && leap>0 && i==leap+1)
+        if(this.isLeap){ this.isLeap = false;}
+        else{this.isLeap=true;--i;--this.monCyl;}
+    if(offset<0){offset+=temp;--i;--this.monCyl;}
+    this.month=i;
+    this.day=offset+1;
+}
+//返回公历y年m+1月的天数
+function solarDays(y,m){
+    if(m==1)
+        return(((y%4==0)&&(y%100!=0)||(y%400==0))?29:28);
+    else
+        return(solarMonth[m]);
+}
+//记录公历和农历某天的日期
+function calElement(sYear,sMonth,sDay,week,lYear,lMonth,lDay,isLeap) {
+    this.isToday = false;
+    //公历
+    this.sYear = sYear;
+    this.sMonth = sMonth;
+    this.sDay = sDay;
+    this.week = week;
+    //农历
+    this.lYear = lYear;
+    this.lMonth = lMonth;
+    this.lDay = lDay;
+    this.isLeap = isLeap;
+    //节日记录
+    this.lunarFestival = ''; //农历节日
+    this.solarFestival = ''; //公历节日
+    this.solarTerms = ''; //节气
+}
+//返回某年的第n个节气为几日(从0小寒起算)
+function sTerm(y,n) {
+    let offDate = new Date((31556925974.7*(y-1900)+sTermInfo[n]*60000)+Date.UTC(1900,0,6,2,5));
+    return(offDate.getUTCDate())
+}
+//保存y年m+1月的相关信息
+let fat=mat=9;
+let eve=0;
+
+//用自定义变量保存当前系统中的年月日
+let Today = new Date();
+let tY = Today.getFullYear();
+let tM = Today.getMonth();
+let tD = Today.getDate();
+
+function calendar(y,m) {
+    fat=mat=0;
+    var sDObj,lDObj,lY,lM,lD=1,lL,lX=0,tmp1,tmp2;
+    var lDPOS = new Array(3);
+    var n = 0;
+    var firstLM = 0;
+    sDObj = new Date(y,m,1);	//当月第一天的日期
+    this.length = solarDays(y,m);    //公历当月天数
+    this.firstWeek = sDObj.getDay();    //公历当月1日星期几
+    if ((m+1)==5){fat=sDObj.getDay()}
+    if ((m+1)==6){mat=sDObj.getDay()}
+    for(var i=0;i<this.length;i++) {
+        if(lD>lX) {
+            sDObj = new Date(y,m,i+1);    //当月第一天的日期
+            lDObj = new Dianaday(sDObj);     //农历
+            lY = lDObj.year;           //农历年
+            lM = lDObj.month;          //农历月
+            lD = lDObj.day;            //农历日
+            lL = lDObj.isLeap;         //农历是否闰月
+            lX = lL? leapDays(lY): monthDays(lY,lM); //农历当月最後一天
+            if (lM==12){eve=lX}
+            if(n==0) firstLM = lM;
+            lDPOS[n++] = i-lD+1;
+        }
+        this[i] = new calElement(y,m+1,i+1,nStr1[(i+this.firstWeek)%7],lY,lM,lD++,lL);
+        if((i+this.firstWeek)%7==0){
+            this[i].color = 'red';  //周日颜色
         }
     }
-};
+    //节气
+    tmp1=sTerm(y,m*2)-1;
+    tmp2=sTerm(y,m*2+1)-1;
+    this[tmp1].solarTerms = solarTerm[m*2];
+    this[tmp2].solarTerms = solarTerm[m*2+1];
+    if((this.firstWeek+12)%7==5)	//黑色星期五
+        this[12].solarFestival += '黑色星期五';
+    if(y==tY && m==tM) this[tD-1].isToday = true;	//今日
+}
+//用中文显示农历的日期
+function cDay(d){
+    let s;
+    switch (d) {
+        case 10:
+            s = '初十'; break;
+        case 20:
+            s = '二十'; break;
+            break;
+        case 30:
+            s = '三十'; break;
+            break;
+        default :
+            s = nStr2[Math.floor(d/10)];
+            s += nStr1[d%10];
+    }
+    return(s);
+}
 
-DateOperate.boxTemplate = function (beginDate, endDate) {
-    return '<div class="calendar-box">' +
-        '<div class="row">' +
-            '<div class="col-md-6 col-sm-6 text-center"><span class="glyphicon glyphicon-chevron-left pull-left"></span> <label class="beginDate"></label></div>' +
-            '<div class="col-md-6 col-sm-6 text-center"><span class="glyphicon glyphicon-chevron-left pull-right"></span> <label class="endDate"></label></div>' +
-            '<div class="col-md-6 col-sm-6">' +
-                '<table class="table calendar-table table-condensed">' +
-                    '<thead><tr><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th><th>周日</th></tr></thead>' +
-                    '<tbody>' + DateOperate.dateTemplate(beginDate) + '</tbody>' +
-                '</table>'+
-            '</div>' +
-            '<div class="col-md-6 col-sm-6">' +
-                '<table class="table calendar-table table-condensed">' +
-                    '<thead><tr><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th><th>周日</th></tr></thead>' +
-                    '<tbody>' + DateOperate.dateTemplate(endDate) + '</tbody>' +
-                '</table>'+
-            '</div>' +
-        '</div>'
-    + '</div>';
-};
+let cld;
+function drawCld(SY,SM, flag) {
+    let TF=true;
+    let p1=p2="";
+    let i,sD,s,size;
+    cld = new calendar(SY,SM);
+    for(i=0;i<42;i++) {
+        sObj=eval('SD'+ i + flag);
+        lObj=eval('LD'+ i + flag);
 
-$.fn.workCalendar.initUI = function ($source, option) {
-    console.log($source)
-    console.log(option)
-};
+        sD = i - cld.firstWeek;
+        if(sD>-1 && sD<cld.length) { //日期内
+            sObj.innerHTML = sD+1;
+            if(cld[sD].isToday){ sObj.style.color = '#9900FF';} //今日颜色
+            else{sObj.style.color = '';}
+            if(cld[sD].lDay==1){ //显示农历月
+                lObj.innerHTML = '<b>'+(cld[sD].isLeap?'闰':'') + cld[sD].lMonth + '月' + (monthDays(cld[sD].lYear,cld[sD].lMonth)==29?'小':'大')+'</b>';
+            }
+            else{lObj.innerHTML = cDay(cld[sD].lDay);}	//显示农历日
+            let Slfw=Ssfw=null;
+            s=cld[sD].solarFestival;
+            for (let ipp=0;ipp<lFtv.length;ipp++){	//农历节日
+                if (parseInt(lFtv[ipp].substr(0,2))==(cld[sD].lMonth)){
+                    if (parseInt(lFtv[ipp].substr(2,4))==(cld[sD].lDay)){
+                        lObj.innerHTML=lFtv[ipp].substr(5);
+                        Slfw=lFtv[ipp].substr(5);
+                    }
+                }
+                if (12==(cld[sD].lMonth)){	//判断是否为除夕
+                    if (eve==(cld[sD].lDay)){lObj.innerHTML="除夕";Slfw="除夕";}
+                }
+            }
+            for (let ipp=0;ipp<sFtv.length;ipp++){	//公历节日
+                if (parseInt(sFtv[ipp].substr(0,2))==(SM+1)){
+                    if (parseInt(sFtv[ipp].substr(2,4))==(sD+1)){
+                        lObj.innerHTML=sFtv[ipp].substr(5);
+                        Ssfw=sFtv[ipp].substr(5);
+                    }
+                }
+            }
+            if ((SM+1)==5){	//母亲节
+                if (fat==0){
+                    if ((sD+1)==7){Ssfw="母亲节";lObj.innerHTML="母亲节"}
+                }
+                else if (fat<9){
+                    if ((sD+1)==((7-fat)+8)){Ssfw="母亲节";lObj.innerHTML="母亲节"}
+                }
+            }
+            if ((SM+1)==6){	//父亲节
+                if (mat==0){
+                    if ((sD+1)==14){Ssfw="父亲节";lObj.innerHTML="父亲节"}
+                }
+                else if (mat<9){
+                    if ((sD+1)==((7-mat)+15)){Ssfw="父亲节";lObj.innerHTML="父亲节"}
+                }
+            }
+            if (s.length<=0){	//设置节气的颜色
+                s=cld[sD].solarTerms;
+                if(s.length>0) s = s.fontcolor('limegreen');
+            }
+            if(s.length>0) {lObj.innerHTML=s;Slfw=s;}	//节气
+            if ((Slfw!=null)&&(Ssfw!=null)){
+                lObj.innerHTML=Slfw+"/"+Ssfw;
+            }
+        }
+        else { //非日期
+            sObj.innerHTML = '';
+            lObj.innerHTML = '';
+        }
+    }
+}
 
+let tempDisableDay = new Array();
+function drawArrangedStyle($source, disabledDay, flag) {
+    var tableOne = $source.find('table:first'),
+        bD = new Date(beginDate).getDate(),
+        eD = new Date(endDate).getDate();
 
+    tempDisableDay.push(...disabledDay);
+    if(flag == 'one'){
+        tableOne.find('tr td').each(function (i) {
+           let num = parseInt($(this).find('p.day').text()),
+               $this = $(this);
+           if(num >= bD && num <= eD){
+               $this.addClass('active');
+               if(num == bD || num == eD){
+                   $this.addClass('emphasize');
+               }
+           }
 
+           for(let j = 0; j < tempDisableDay.length; j++){
+               let disableDay = tempDisableDay[j].day;
+               let day = new Date(disableDay).getDate();
+               if(num == day){
+                   $this.addClass('disabled');
+                   if(tempDisableDay.reasonClass){
+                       $this.append('<p class="reason"><span class="icon ' + tempDisableDay.reasonClass + '"></span></p>');
+                   }
+               }
+           }
+        });
+    }else {
+        let tableTwo = $source.find('table:last');
+        tableOne.find('tr td').each(function (i) {
+            let num = parseInt($(this).find('p.day').text()),
+                $this = $(this),
+                month = $source.find('label.beginDate').text().substring(5);
+            if(num >= bD){
+                $this.addClass('active');
+                if(num == bD){
+                    $this.addClass('emphasize');
+                }
+            }
 
+            for(let j = 0; j < tempDisableDay.length; j++){
+                let disableDay = tempDisableDay[j].day,
+                    day = new Date(disableDay).getDate(),
+                    disMonth = new Date(disableDay).getMonth()+1;
+                if(num == day && parseInt(month) == disMonth){
+                    $this.addClass('disabled');
+                    if(tempDisableDay.reasonClass){
+                        $this.append('<p class="reason"><span class="icon ' + tempDisableDay.reasonClass + '"></span></p>');
+                    }
+                    tempDisableDay.splice(j, 1);
+                }
+            }
+        });
+
+        tableTwo.find('tr td').each(function (i) {
+            let num = parseInt($(this).find('p.day').text()),
+                $this = $(this),
+                month = $source.find('label.endDate').text().substring(5);
+
+            if(num <= eD){
+                $(this).addClass('active');
+                if(num == eD){
+                    $(this).addClass('emphasize');
+                }
+            }
+
+            for(let j = 0; j < tempDisableDay.length; j++){
+                let disableDay = tempDisableDay[j].day,
+                    day = new Date(disableDay).getDate(),
+                    disMonth = new Date(disableDay).getMonth()+1;
+                if(num == day && parseInt(month) == disMonth){
+                    $this.addClass('disabled');
+                    if(tempDisableDay.reasonClass){
+                        $this.append('<p class="reason"><span class="icon ' + tempDisableDay.reasonClass + '"></span></p>');
+                    }
+                    tempDisableDay.splice(j, 1);
+                }
+            }
+        });
+    }
+}
 
 
 

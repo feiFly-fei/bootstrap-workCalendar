@@ -16,8 +16,8 @@
 }
 .calendar-box > .row .calendar-table tbody tr td {
   text-align: center;
-  height: 57px;
-  border: 0;
+  height: 60px;
+  width: 50px;
 }
 .calendar-box > .row .calendar-table tbody tr td p {
   margin: 0;
@@ -28,10 +28,10 @@
   color: #888;
 }
 .calendar-box > .row .calendar-table tbody tr td.active {
-  background-color: #d0fad0;
+  background-color: #f0f7ff;
 }
 .calendar-box > .row .calendar-table tbody tr td.active.emphasize {
-  background-color: #97ffbf;
+  background-color: #d6eaff;
 }
 .calendar-box > .row .calendar-table tbody tr td.disabled {
   background-color: #f1f1f1;
