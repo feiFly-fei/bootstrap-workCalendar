@@ -55,44 +55,44 @@ var DateOperate = {
 
 DateOperate.boxTemplate = function () {
     return '<div class="calendar-box">' +
-            '<div class="row">' +
-                '<div class="col-md-6 col-sm-6 text-center"> <label class="beginDate">' + DateOperate.formatDate(new Date(beginDate), 'yyyy-MM') + '</label></div>' +
-                '<div class="col-md-6 col-sm-6 text-center"> <label class="endDate">' + DateOperate.formatDate(new Date(endDate), 'yyyy-MM') + '</label></div>' +
-                '<div class="col-md-6 col-sm-6">' +
-                    '<table class="table calendar-table table-condensed">' +
-                        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
-                        '<tbody>' + DateOperate.dateTemplate('b') + '</tbody>' +
-                    '</table>'+
-                '</div>' +
-                '<div class="col-md-6 col-sm-6">' +
-                    '<table class="table calendar-table table-condensed">' +
-                        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
-                        '<tbody>' + DateOperate.dateTemplate('e') + '</tbody>' +
-                    '</table>'+
-                '</div>' +
-            '</div>'
+        '<div class="row">' +
+        '<div class="col-md-6 col-sm-6 text-center"> <label class="beginDate">' + DateOperate.formatDate(new Date(beginDate), 'yyyy-MM') + '</label></div>' +
+        '<div class="col-md-6 col-sm-6 text-center"> <label class="endDate">' + DateOperate.formatDate(new Date(endDate), 'yyyy-MM') + '</label></div>' +
+        '<div class="col-md-6 col-sm-6">' +
+        '<table class="table calendar-table table-condensed">' +
+        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
+        '<tbody>' + DateOperate.dateTemplate('b') + '</tbody>' +
+        '</table>'+
+        '</div>' +
+        '<div class="col-md-6 col-sm-6">' +
+        '<table class="table calendar-table table-condensed">' +
+        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
+        '<tbody>' + DateOperate.dateTemplate('e') + '</tbody>' +
+        '</table>'+
+        '</div>' +
+        '</div>'
         + '</div>';
 };
 
 DateOperate.singleMonthTemplate = function () {
     return '<div class="calendar-box">' +
-            '<div class="row">' +
-                '<div class="col-md-12 col-sm-12 text-center"> <label class="beginDate">' + DateOperate.formatDate(new Date(beginDate), 'yyyy-MM') + '</label></div>' +
-                '<div class="col-md-12 col-sm-12">' +
-                    '<table class="table calendar-table table-condensed">' +
-                        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
-                        '<tbody>' + DateOperate.dateTemplate('b') + '</tbody>' +
-                    '</table>'+
-                '</div>' +
-            '</div>'
+        '<div class="row">' +
+        '<div class="col-md-12 col-sm-12 text-center"> <label class="beginDate">' + DateOperate.formatDate(new Date(beginDate), 'yyyy-MM') + '</label></div>' +
+        '<div class="col-md-12 col-sm-12">' +
+        '<table class="table calendar-table table-condensed">' +
+        '<thead><tr><th>周日</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th></tr></thead>' +
+        '<tbody>' + DateOperate.dateTemplate('b') + '</tbody>' +
+        '</table>'+
+        '</div>' +
+        '</div>'
         + '</div>';
 };
 
 let beginDate = "", endDate = "";
 $.fn.workCalendar.initUI = function ($source, option) {
-     beginDate = option.beginDate;
-     endDate = option.endDate;
-     let flag = "";
+    beginDate = option.beginDate;
+    endDate = option.endDate;
+    let flag = "";
 
     let bY = new Date(beginDate).getFullYear(),
         bM = new Date(beginDate).getMonth(),
@@ -114,6 +114,10 @@ $.fn.workCalendar.initUI = function ($source, option) {
     }
 
     drawArrangedStyle($source, option.disabledDay, flag);
+
+    if(option.editable){
+        bindTdClick(option.callback, $source);
+    }
 };
 
 let lunarInfo = new Array(
@@ -336,6 +340,9 @@ function drawCld(SY,SM, flag) {
         sD = i - cld.firstWeek;
         if(sD>-1 && sD<cld.length) { //日期内
             sObj.innerHTML = sD+1;
+            let fullDate = SY + '-' +parseInt(SM+1) + '-' + parseInt(sD+1);
+            sObj.setAttribute('date', fullDate);
+
             if(cld[sD].isToday){ sObj.style.color = '#9900FF';} //今日颜色
             else{sObj.style.color = '';}
             if(cld[sD].lDay==1){ //显示农历月
@@ -404,25 +411,25 @@ function drawArrangedStyle($source, disabledDay, flag) {
     tempDisableDay.push(...disabledDay);
     if(flag == 'one'){
         tableOne.find('tr td').each(function (i) {
-           let num = parseInt($(this).find('p.day').text()),
-               $this = $(this);
-           if(num >= bD && num <= eD){
-               $this.addClass('active');
-               if(num == bD || num == eD){
-                   $this.addClass('emphasize');
-               }
-           }
+            let num = parseInt($(this).find('p.day').text()),
+                $this = $(this);
+            if(num >= bD && num <= eD){
+                $this.addClass('active');
+                if(num == bD || num == eD){
+                    $this.addClass('emphasize');
+                }
+            }
 
-           for(let j = 0; j < tempDisableDay.length; j++){
-               let disableDay = tempDisableDay[j].day;
-               let day = new Date(disableDay).getDate();
-               if(num == day){
-                   $this.addClass('disabled');
-                   if(tempDisableDay.reasonClass){
-                       $this.append('<p class="reason"><span class="icon ' + tempDisableDay.reasonClass + '"></span></p>');
-                   }
-               }
-           }
+            for(let j = 0; j < tempDisableDay.length; j++){
+                let disableDay = tempDisableDay[j].day;
+                let day = new Date(disableDay).getDate();
+                if(num == day){
+                    $this.addClass('disabled');
+                    if(tempDisableDay.reasonClass){
+                        $this.append('<p class="reason"><span class="icon ' + tempDisableDay.reasonClass + '"></span></p>');
+                    }
+                }
+            }
         });
     }else {
         let tableTwo = $source.find('table:last');
@@ -480,8 +487,66 @@ function drawArrangedStyle($source, disabledDay, flag) {
 }
 
 
+function bindTdClick(callback, $source) {
+    let $modal = '<div class="modal fade calendar-modal" role="dialog" id="workCalendar_modal">' +
+        '<div class="modal-dialog" role="document">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+        '<span aria-hidden="true">&times;</span>' +
+        '</button>' +
+        '<h4 id="workCalendar_modal_title">日历修改</h4>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<div class="radio">' +
+        '<label class="radio-inline"><input type="radio" name="workCalendar-radio" value=true>可作业</label></div>' +
+        '<div class="radio">' +
+        '<label class="radio-inline"><input type="radio" name="workCalendar-radio" value=false>不可作业</label>' +
+        '</div>' +
+        '<div class="reason-box"><label>不可作业原因</label></div>' +
+        '<label class="radio-inline"><input type="radio" name="notWorkReason-radio" value="snow">下雪</label><label class="radio-inline"><input type="radio" name="notWorkReason-radio" value="rain">下雨</label>' +
+        '<div class="btn-box text-right"><button class="btn btn-primary" id="workCalendar_confirm_btn">确定</button></div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    $('body').append($modal);
 
+    $('#workCalendar_modal').on('hidden.bs.modal', function (e) {
+        $('#workCalendar_modal_title').empty();
+        $('#workCalendar_modal').removeAttr('date');
+    });
 
+    $('input[name=workCalendar-radio]').on('change', function (e) {
+        if($(this).val() == true){
+            console.log(1)
+        }else if($(this).val() == false){
+            console.log(2)
+        }
+    });
+
+    $('#workCalendar_confirm_btn').on('click', function () {
+        var data = {
+            date: $('#workCalendar_modal').attr('date'),
+            ableWord: false,
+            reason: ''
+        } ;
+        if(callback &&　typeof callback == "function"){
+            callback(data)
+        }
+    });
+
+    $source.find('table').each(function () {
+        $(this).find('td').css('cursor', 'pointer').on('dblclick', function (e) {
+            let $td = $(this);
+            let date = $td.find('p.day').attr('date');
+            if(date){
+                $('#workCalendar_modal_title').empty().append(date + "工作修改");
+                $('#workCalendar_modal').attr('date', date).modal('toggle');
+            }
+        });
+    });
+}
 
 
 

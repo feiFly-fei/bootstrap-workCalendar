@@ -17,14 +17,22 @@ $(function () {
                 day: '2017-10-03'
             },
             {
-                day: '2017-11-12',
+                day: '2017-11-26',
                 reasonClass: 'rain'
             },
             {
-                day: '2017-11-20',
+                day: '2017-11-27',
+                reasonClass: 'snow'
+            },
+            {
+                day: '2017-11-28',
                 reasonClass: 'snow'
             }
-        ]
+        ],
+        editable: true,
+        callback: function (data) {
+            console.log(data)
+        }
     };
 
     $('#workCalendar-box1').workCalendar(option);
