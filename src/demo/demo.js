@@ -32,6 +32,7 @@ $(function () {
         editable: true,
         callback: function (data) {
             console.log(data)
+            $('#workCalendar_modal').modal('toggle');
         }
     };
 

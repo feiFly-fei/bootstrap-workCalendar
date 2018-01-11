@@ -488,7 +488,7 @@ function drawArrangedStyle($source, disabledDay, flag) {
 
 
 function bindTdClick(callback, $source) {
-    let $modal = '<div class="modal fade calendar-modal" role="dialog" id="workCalendar_modal">' +
+    let $modal = '<div class="modal fade calendar-modal bs-example-modal-sm" role="dialog" id="workCalendar_modal">' +
         '<div class="modal-dialog" role="document">' +
         '<div class="modal-content">' +
         '<div class="modal-header">' +
@@ -498,14 +498,25 @@ function bindTdClick(callback, $source) {
         '<h4 id="workCalendar_modal_title">日历修改</h4>' +
         '</div>' +
         '<div class="modal-body">' +
-        '<div class="radio">' +
-        '<label class="radio-inline"><input type="radio" name="workCalendar-radio" value=true>可作业</label></div>' +
-        '<div class="radio">' +
-        '<label class="radio-inline"><input type="radio" name="workCalendar-radio" value=false>不可作业</label>' +
+        '<div class="radio canWorkBox">' +
+        '<label class="radio-inline"><input type="radio" name="workCalendar-radio" class="iradio_square-blue" value="T">可作业</label></div>' +
+        '<div class="radio notWorkBox">' +
+        '<label class="radio-inline"><input type="radio" name="workCalendar-radio" class="iradio_square-blue" value="F">不可作业</label>' +
         '</div>' +
-        '<div class="reason-box"><label>不可作业原因</label></div>' +
-        '<label class="radio-inline"><input type="radio" name="notWorkReason-radio" value="snow">下雪</label><label class="radio-inline"><input type="radio" name="notWorkReason-radio" value="rain">下雨</label>' +
-        '<div class="btn-box text-right"><button class="btn btn-primary" id="workCalendar_confirm_btn">确定</button></div>' +
+        '<div class="reason-box notWorkBox"><label>不可作业原因</label></div>' +
+        '<label class="radio-inline notWorkBox">' +
+        '<input type="radio" name="notWorkReason-radio" class="iradio_square-blue" value="snow">下雪' +
+        '</label>' +
+        '<label class="radio-inline notWorkBox">' +
+        '<input type="radio" name="notWorkReason-radio" class="iradio_square-blue" value="rain">下雨' +
+        '</label>' +
+        '<label class="radio-inline notWorkBox">' +
+        '<input type="radio" name="notWorkReason-radio" class="iradio_square-blue" value="rainSnow">雨夹雪' +
+        '</label>' +
+        '<label class="radio-inline notWorkBox">' +
+        '<input type="radio" name="notWorkReason-radio" class="iradio_square-blue" value="cloudy">大风' +
+        '</label>' +
+        '<div class="btn-box text-right"><span class="modal-message"></span><button class="btn btn-primary" id="workCalendar_confirm_btn">确定</button></div>' +
         '</div>' +
         '</div>' +
         '</div>' +
@@ -514,38 +525,87 @@ function bindTdClick(callback, $source) {
 
     $('#workCalendar_modal').on('hidden.bs.modal', function (e) {
         $('#workCalendar_modal_title').empty();
-        $('#workCalendar_modal').removeAttr('date');
+        $('#workCalendar_modal').removeAttr('operateDate').removeAttr('workFlag');
+        resetModal();
     });
 
-    $('input[name=workCalendar-radio]').on('change', function (e) {
-        if($(this).val() == true){
-            console.log(1)
-        }else if($(this).val() == false){
-            console.log(2)
+    $('#workCalendar_modal').on('show.bs.modal', function (e) {
+        let flag = $('#workCalendar_modal').attr('workFlag');
+        if(flag == 'disabled'){
+            $('.canWorkBox').show();
+            $('.notWorkBox').hide();
+        }else if(flag == 'active'){
+            $('.canWorkBox').hide();
+            $('.notWorkBox').show();
+        }else {
+            $('.canWorkBox').show();
+            $('.notWorkBox').show();
+        }
+    });
+
+    $('input[name=workCalendar-radio]').change(function () {
+        $('.modal-message').empty().hide();
+        let flag = $('#workCalendar_modal').attr('workFlag'),
+            value = $(this).val();
+        if(flag == 'none' && value == 'T'){
+            $("input[name=notWorkReason-radio]").attr('checked', false).attr("disabled","disabled");
+        }else if(flag == 'none' &&　value == 'F'){
+            $("input[name=notWorkReason-radio]").removeAttr("disabled");
+        }
+    });
+
+    $('input[name=notWorkReason-radio]').change(function () {
+        if( $('.modal-message').is(':visible')){
+            $('.modal-message').empty().hide();
         }
     });
 
     $('#workCalendar_confirm_btn').on('click', function () {
-        var data = {
-            date: $('#workCalendar_modal').attr('date'),
-            ableWord: false,
-            reason: ''
+        $('.modal-message').empty();
+        let value = $('input[name=workCalendar-radio]:checked').val();
+        if(!value){
+            $('.modal-message').append('请选择是否可作业').show();
+            return ;
+        }
+
+        let reason = $('input[name=notWorkReason-radio]:checked').val();
+        if(value == 'F' && !reason){
+            $('.modal-message').append('请选择不可作业原因').show();
+            return ;
+        }
+
+        let reasonText = $('input[name=notWorkReason-radio]:checked').parent().text();
+        let data = {
+            date: $('#workCalendar_modal').attr('operateDate'),
+            ableWord: value,
+            reason: reason,
+            reasonText: reasonText
         } ;
         if(callback &&　typeof callback == "function"){
-            callback(data)
+            callback(data);
+        }else {
+            $('#workCalendar_modal').modal('toggle');
         }
     });
 
     $source.find('table').each(function () {
         $(this).find('td').css('cursor', 'pointer').on('dblclick', function (e) {
             let $td = $(this);
-            let date = $td.find('p.day').attr('date');
+            let date = $td.find('p.day').attr('date'),
+                flag = $td.hasClass('disabled') ? 'disabled' : ($td.hasClass('active') ? 'active' : 'none');
+
             if(date){
                 $('#workCalendar_modal_title').empty().append(date + "工作修改");
-                $('#workCalendar_modal').attr('date', date).modal('toggle');
+                $('#workCalendar_modal').attr('operateDate', date).attr('workFlag', flag).modal('toggle');
             }
         });
     });
+}
+
+function resetModal() {
+    $('input[name=workCalendar-radio]').attr('checked', false);
+    $('input[name=notWorkReason-radio]').attr('checked', false).removeAttr('disabled');
+    $('.modal-message').empty().hide();
 }
 
 
